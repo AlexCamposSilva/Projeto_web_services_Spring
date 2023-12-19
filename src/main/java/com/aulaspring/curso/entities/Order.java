@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import org.hibernate.annotations.ManyToAny;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,18 +20,20 @@ import jakarta.persistence.Table;
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	
+
 	@ManyToAny
-	@JoinColumn (name = "client_id")
+	@JoinColumn(name = "client_id")
 	private User client;
-	
-	
+
 	public Order() {
-		
+
 	}
 
 	public Order(Long id, Instant moment, User client) {
@@ -80,6 +84,4 @@ public class Order implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	
-	
 }
